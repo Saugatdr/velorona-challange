@@ -17,12 +17,15 @@ import {
 } from "lucide-react";
 import { toast, Toaster } from "sonner";
 import NewExpenseDialog from "./new-expense-dialog/new-expense-dialog";
+import InsightsModal from "@/components/InsightsModal";
 
 
 export default function ExpensesDashboard() {
   const queryClient = useQueryClient();
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-  const [isNewExpenseDialogOpen, setNewExpenseDialogOpen] = useState(false)
+  const [isNewExpenseDialogOpen, setNewExpenseDialogOpen] = useState(false);
+  const [isInsightsOpen, setInsightsOpen] = useState(false);
+
   // Data Fetching
   const { data: expenses = [], isLoading } = useQuery({
     queryKey: ["expenses"],
@@ -75,6 +78,13 @@ export default function ExpensesDashboard() {
       onSubmit={(data) => console.log(data)}
       />
 
+      {/* Task 2: Insights Modal */}
+      <InsightsModal
+        expenses={expenses}
+        open={isInsightsOpen}
+        onClose={() => setInsightsOpen(false)}
+      />
+
       <header className="flex justify-between items-end mb-12">
         <div>
           <h1 className="text-4xl font-bold tracking-tight text-slate-900 mb-2 font-sans">
@@ -86,7 +96,10 @@ export default function ExpensesDashboard() {
         </div>
 
         <div className="flex gap-3">
-          <button className="btn btn-outline flex items-center gap-2">
+          <button
+            onClick={() => setInsightsOpen(true)}
+            className="btn btn-outline flex items-center gap-2"
+          >
             <BarChart3 className="w-4 h-4" /> View Insights
           </button>
           <button onClick={handleOpenNewExpenseDialog} className="btn btn-primary flex items-center gap-2 shadow-indigo-100">
@@ -96,7 +109,7 @@ export default function ExpensesDashboard() {
       </header>
 
       {/* Task 1: Create Expense Sheet (Mock placeholder) */}
-      {/* Task 2: Spend Analysis Chart (Mock placeholder) */}
+      {/* Task 2: Spend Analysis Chart — see InsightsModal above */}
 
       <div className="grid grid-cols-12 gap-6">
         {/* Analytics Summary */}
