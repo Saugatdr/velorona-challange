@@ -71,7 +71,9 @@ export default function ExpensesDashboard() {
   return (
     <div className="max-w-7xl mx-auto p-8">
       <Toaster richColors position="bottom-right" />
-      <NewExpenseDialog open={isNewExpenseDialogOpen} onOpenChange={handleOpenNewExpenseDialog}/>
+      <NewExpenseDialog open={isNewExpenseDialogOpen} onOpenChange={handleOpenNewExpenseDialog}
+      onSubmit={(data) => console.log(data)}
+      />
 
       <header className="flex justify-between items-end mb-12">
         <div>
