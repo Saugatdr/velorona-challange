@@ -16,11 +16,13 @@ import {
   ReceiptText,
 } from "lucide-react";
 import { toast, Toaster } from "sonner";
+import NewExpenseDialog from "./expenses/_components/newExpenseDialog";
+
 
 export default function ExpensesDashboard() {
   const queryClient = useQueryClient();
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-
+  const [isNewExpenseDialogOpen, setNewExpenseDialogOpen] = useState(false)
   // Data Fetching
   const { data: expenses = [], isLoading } = useQuery({
     queryKey: ["expenses"],
@@ -45,6 +47,9 @@ export default function ExpensesDashboard() {
     else next.add(id);
     setSelectedIds(next);
   };
+ 
+  //Toggle Add New Expense Dialog
+  const handleOpenNewExpenseDialog = () => setNewExpenseDialogOpen(open => !open)
 
   //Returns the sum of all expenses
   const expensesSum = expenses.reduce((sum, expense) => sum + expense.amount, 0);
@@ -66,6 +71,7 @@ export default function ExpensesDashboard() {
   return (
     <div className="max-w-7xl mx-auto p-8">
       <Toaster richColors position="bottom-right" />
+      <NewExpenseDialog open={isNewExpenseDialogOpen} onOpenChange={handleOpenNewExpenseDialog}/>
 
       <header className="flex justify-between items-end mb-12">
         <div>
@@ -81,7 +87,7 @@ export default function ExpensesDashboard() {
           <button className="btn btn-outline flex items-center gap-2">
             <BarChart3 className="w-4 h-4" /> View Insights
           </button>
-          <button className="btn btn-primary flex items-center gap-2 shadow-indigo-100">
+          <button onClick={handleOpenNewExpenseDialog} className="btn btn-primary flex items-center gap-2 shadow-indigo-100">
             <ReceiptText className="w-4 h-4" /> New Expense
           </button>
         </div>
