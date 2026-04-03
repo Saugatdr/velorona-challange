@@ -46,6 +46,23 @@ export default function ExpensesDashboard() {
     setSelectedIds(next);
   };
 
+  //Returns the sum of all expenses
+  const expensesSum = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+
+  //Formats the number approriately for display
+  const formattedExpensesSum = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+  }).format(expensesSum);
+
+  const remainingBalance = 42890.12 - expensesSum
+
+    //Formats the number approriately for display
+  const formattedRemainingBalance = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+  }).format(remainingBalance);
+
   return (
     <div className="max-w-7xl mx-auto p-8">
       <Toaster richColors position="bottom-right" />
@@ -76,8 +93,9 @@ export default function ExpensesDashboard() {
       <div className="grid grid-cols-12 gap-6">
         {/* Analytics Summary */}
         <div className="col-span-12 lg:col-span-4 card bg-indigo-600 border-none text-foreground">
-          <h3 className="font-medium opacity-80 mb-1">Total Pending</h3>
-          <p className="text-4xl font-bold">$12,450.00</p>
+          <h3 className="text-slate-500 font-medium mb-1">Total</h3>
+          {/* Update to display the sum */}
+          <p className="text-4xl font-bold">{formattedExpensesSum}</p>
         </div>
         <div className="col-span-12 lg:col-span-4 card">
           <h3 className="text-slate-500 font-medium mb-1">
@@ -88,6 +106,11 @@ export default function ExpensesDashboard() {
         <div className="col-span-12 lg:col-span-4 card">
           <h3 className="text-slate-500 font-medium mb-1">Active Staff</h3>
           <p className="text-4xl font-bold text-slate-900">124</p>
+        </div>
+        {/* Add a new card to display remaining balance */}
+         <div className="col-span-12 lg:col-span-4 card">
+          <h3 className="text-slate-500 font-medium mb-1">Remaining Balance</h3>
+          <p className="text-4xl font-bold text-slate-900">{formattedRemainingBalance}</p>
         </div>
 
         {/* Expense List Section */}
@@ -189,13 +212,12 @@ export default function ExpensesDashboard() {
                       </td>
                       <td className="px-6 py-4">
                         <span
-                          className={`px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
-                            expense.status === "pending"
+                          className={`px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${expense.status === "pending"
                               ? "bg-amber-100 text-amber-700"
                               : expense.status === "approved"
                                 ? "bg-emerald-100 text-emerald-700"
                                 : "bg-slate-100 text-slate-500"
-                          }`}
+                            }`}
                         >
                           {expense.status}
                         </span>
