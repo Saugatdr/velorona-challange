@@ -16,7 +16,7 @@ import {
   ReceiptText,
 } from "lucide-react";
 import { toast, Toaster } from "sonner";
-import NewExpenseDialog from "./expenses/_components/newExpenseDialog";
+import NewExpenseDialog from "./new-expense-dialog/new-expense-dialog";
 
 
 export default function ExpensesDashboard() {
